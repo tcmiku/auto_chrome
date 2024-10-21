@@ -1,0 +1,26 @@
+{
+  "us": {
+      "addrate1": {
+                "name": "Free Shipping",
+                "price_min": "39.99"
+              },
+      "addrate2": {
+                "name": "Standard Shipping",
+                "price": "5.99",
+                "price_min": "0.01",
+                "price_max": "39.98"
+              }
+  },
+  "de": {
+          "addrate1": {
+                "name": "Kostenloser Versand",
+                "price": "39.99"
+              },
+          "addrate2": {
+                "name": "Standardversand",
+                "price": "5.99",
+                "price_min": "0.01",
+                "price_max": "39.98"
+              }
+  }
+}
