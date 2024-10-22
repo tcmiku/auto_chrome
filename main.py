@@ -1,3 +1,4 @@
+from Tools.scripts.summarize_stats import print_specialization_stats
 from selenium.webdriver import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import requests
@@ -10,7 +11,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+import new_page
 from josn_pages.json_in import *
+
+from new_page import *
 
 class web:
     def __init__(self,api_website):
@@ -330,20 +334,68 @@ class shopify_process:
 
     def __Editzone_add(self):
         driver = self.driver
-        input_fields = driver.find_elements(By.CSS_SELECTOR,"._ListHeader__CollapsibleButton_1nbgz_52")
-        print(input_fields)
-        for div in input_fields:
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "._ListHeader__CollapsibleButton_1nbgz_52")))
-            div.click()
-            time.sleep(0.5)
+        divs = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@class="_ListHeader__CollapsibleButton_1nbgz_52"]'))
+        )
+        # 遍历这些元素并进行点击操作
+        for element in divs:
+            element.click()
+            time.sleep(0.5)  # 每次点击后等待0.5秒
 
-def auto_gui(drivers):
+    def process_pagesnew(self,web):
+        driver = self.driver
+        url = driver.current_url
+        url = url.replace('/pages/new', '')
+        print("开始操作pages")
+        pages = new_page.NewPage()
+        pages_date = pages.add_page(web)
+
+        for i in range(1,len(pages_date)+1):
+            iframe_element = driver.find_element(By.CSS_SELECTOR,
+                                                 "#AppFrameScrollable > div > div > div > div > div > div > iframe")
+            driver.switch_to.frame(iframe_element)
+            title = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.ID,
+                                                  "page-title"))
+            )
+            title.send_keys(pages_date[str('page'+str(i))]['title'])
+            html_mode = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@class="QTKzU"]/span/button'))
+            )
+            html_mode.click()
+            time.sleep(0.5)
+            html = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.ID,
+                                                  "page-description"))
+            )
+            print("开始写入页面内容（内容较多写入会变慢）")
+            html.send_keys(pages_date[str('page'+str(i))]['content'])
+            time.sleep(1)
+            print("页面编辑完成")
+            page_server = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@id="app"]/div[1]/div[1]/div/div[2]/form/div/div[3]/div/div/button[2]'))
+            )
+            if page_server.get_attribute('aria-disabled') != 'true':
+                page_server.click()
+                time.sleep(5)
+                print("第"+str(i)+"页页面操作完成")
+            else:
+                print("第"+str(i)+"页页面操作失败")
+            if i != 7:
+                driver.get(url + "/pages/new")
+                time.sleep(5)
+        print("pages页面操作完成")
+
+def auto_gui(drivers,domain_name):
     #导入需要用到的类和数据包
     sadelivery_josn = JSON_IN('josn_pages/shippinganddelivery.json')
     date = sadelivery_josn.read_json()
     open_auto = shopify_auto_page(drivers)
     control_auto = shopify_process(drivers)
-
+    top_domain_name = domain_name.capitalize()
     #shippinganddelivery页面操作示例
     # open_auto.open_shippinganddelivery()
     # control_auto.new_process_shippinganddelivery(date)
@@ -354,15 +406,19 @@ def auto_gui(drivers):
     #appsandsaleschannels页面操作示例
     # open_auto.open_appsandsaleschannels()
 
-    #general页面操作示例
-    # open_auto.open_general()
-    # control_auto.process_general('Goudeam-shop')
+    # general页面操作示例
+    open_auto.open_general()
+    control_auto.process_general(top_domain_name)
 
     #pages页面操作示例
     open_auto.open_pages_new()
+    control_auto.process_pagesnew(domain_name)
+
+
 
 url = "http://local.adspower.com:50325"
-chrome_id = "kofo8cw"
+chrome_id = "kokywg6"
+domain_name = 'youdaak'
 
 # 打开浏览器
 autoweb_window = web(url)
@@ -375,7 +431,7 @@ shopify_login = shopify_login()
 if shopify_login.login(drivers):
     print("开始自动化操作")
     print("程序暂停后有一分钟时间操作具体内容")
-    auto_gui(drivers)
+    auto_gui(drivers,domain_name)
     close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 
 # 关闭浏览器
