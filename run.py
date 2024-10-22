@@ -5,3 +5,4 @@ if __name__ == '__main__':
     chrome_id = "kokywg6"
     domain_name = 'youdaak'
     run_auto(url,chrome_id,domain_name)
+    run_auto.auto()

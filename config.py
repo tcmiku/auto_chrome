@@ -1,9 +1,14 @@
 from main import *
 class run_auto:
     def __init__(self,url,chrome_id,domain_name):
+        self.url = url
+        self.chrome_id = chrome_id
+        self.domain_name = domain_name
+
+    def auto(self):
         # 打开浏览器
-        autoweb_window = web(url)
-        reget = autoweb_window.open_website(chrome_id)
+        autoweb_window = web(self.url)
+        reget = autoweb_window.open_website(self.chrome_id)
         autoweb_link = autoweb_chrome()
         drivers = autoweb_link.linkwebsite(reget)
 
@@ -12,7 +17,7 @@ class run_auto:
         if log_in.login(drivers):
             print("开始自动化操作")
             print("程序暂停后有一分钟时间操作具体内容")
-            auto_gui(drivers,domain_name)
+            auto_gui(self.drivers,self.domain_name)
             close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 
         # 关闭浏览器
@@ -22,7 +27,7 @@ class run_auto:
             print("浏览器关闭成功(Webdriver closed successfully)")
 
 
-    def auto_gui(drivers,domain_name):
+    def auto_gui(self,drivers,domain_name):
         #导入需要用到的类和数据包
         sadelivery_josn = JSON_IN('josn_pages/shippinganddelivery.json')
         date = sadelivery_josn.read_json()

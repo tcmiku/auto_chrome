@@ -1,4 +1,4 @@
-from Tools.scripts.summarize_stats import print_specialization_stats
+
 from selenium.webdriver import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import requests
@@ -397,8 +397,8 @@ def auto_gui(drivers,domain_name):
     control_auto = shopify_process(drivers)
     top_domain_name = domain_name.capitalize()
     #shippinganddelivery页面操作示例
-    # open_auto.open_shippinganddelivery()
-    # control_auto.new_process_shippinganddelivery(date)
+    open_auto.open_shippinganddelivery()
+    control_auto.new_process_shippinganddelivery(date)
 
     #markets页面操作示例
     # open_auto.open_markets()
@@ -432,8 +432,9 @@ if shopify_login.login(drivers):
     print("开始自动化操作")
     print("程序暂停后有一分钟时间操作具体内容")
     auto_gui(drivers,domain_name)
-    close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 
+drivers.get('https://www.browserscan.net/')
+close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 # 关闭浏览器
 if close_on == "1":
     drivers.quit()
