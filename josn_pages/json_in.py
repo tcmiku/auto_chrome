@@ -9,7 +9,7 @@ class JSON_IN:
         try:
             with open(self.filename, 'r', encoding='utf-8') as file:
                 self.data = json.load(file)
-                print("成功读取 JSON 文件内容:")
+                print("成功读取 JSON 文件内容")
                 return self.data
         except FileNotFoundError:
             print(f"文件 {self.filename} 未找到。")
@@ -22,6 +22,7 @@ class JSON_IN:
 if __name__ == '__main__':
     json_reader = JSON_IN('shippinganddelivery.json')
     print(type(json_reader.read_json()))
+    print(json_reader.read_json())
 
 
 

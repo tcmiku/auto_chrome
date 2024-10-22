@@ -11,9 +11,12 @@ class NewPage:
         self.__re_page(web,top_web,big_web)
 
     def __re_page(self,web:str,top_web:str,big_web:str):
-        page_content = self.date[self.country]["page1"]['content']
+        page_content = self.date[self.country]["page3"]['content']
+        page_content = page_content.replace('{web}',web)
+        page_content = page_content.replace('{top_web}',top_web)
+        page_content = page_content.replace('{big_web}',big_web)
         print(page_content)
 
 if __name__ == '__main__':
     page = NewPage()
-    page.add_page('facebook')
+    page.add_page('tcmiku')
