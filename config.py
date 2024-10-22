@@ -17,7 +17,7 @@ class run_auto:
         if log_in.login(drivers):
             print("开始自动化操作")
             print("程序暂停后有一分钟时间操作具体内容")
-            auto_gui(self.drivers,self.domain_name)
+            self.auto_gui(drivers,self.domain_name)
             close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 
         # 关闭浏览器
@@ -56,4 +56,4 @@ if __name__ == '__main__':
     url = "http://local.adspower.com:50325"
     chrome_id = "kokywg6"
     domain_name = 'youdaak'
-    run_auto(url,chrome_id,domain_name)
+    run_auto(url,chrome_id,domain_name).auto()
