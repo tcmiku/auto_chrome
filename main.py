@@ -411,8 +411,48 @@ class shopify_process:
 
     def process_pages_delete(self):
         driver = self.driver
-        print("开始操作pages_delete")
-        print("未完成")
+        try:
+            print("开始操作pages_delete")
+            in_iframe = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                  "#AppFrameScrollable > div > div > div > div > div > div > iframe"))
+            )
+            driver.switch_to.frame(in_iframe)
+            time.sleep(1)
+            print("进入iframe")
+            switch_bulltn = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@id="app"]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div/div[3]/div/div/div[2]/div/div[1]/div[2]/div'))
+            )
+            switch_bulltn.click()
+            time.sleep(2)
+            actions_bulltn = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@id="app"]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div/div[3]/div/div/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/button'))
+            )
+            actions_bulltn.click()
+            time.sleep(0.5)
+            Delete_pages = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                  '.Polaris-ActionList__Item.Polaris-ActionList--destructive.Polaris-ActionList--default'))
+            )
+            Delete_pages.click()
+            time.sleep(1)
+            driver.switch_to.default_content()
+            in_iframe = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                  "#dialogContainer > div > div > iframe"))
+            )
+            driver.switch_to.frame(in_iframe)
+            time.sleep(1)
+            delete_page_red = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@id="app"]/div/div/div[3]/div/div/div[2]/button[2]'))
+            )
+            delete_page_red.click()
+            time.sleep(5)
+        except Exception as e:
+            print("页面删除失败可能无需删除")
 
     def process_navigation(self):
         driver = self.driver

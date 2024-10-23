@@ -19,7 +19,7 @@ class run_auto:
             print("程序暂停后有一分钟时间操作具体内容")
             self.auto_gui(drivers,self.domain_name)
 
-        drivers.get('https://www.browserscan.net/')
+        # drivers.get('https://www.browserscan.net/')
         # close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
         #
         # # 关闭浏览器
@@ -41,22 +41,22 @@ class run_auto:
         # control_auto.new_process_shippinganddelivery(date)
         #
         # #markets页面操作示例
-        # # open_auto.open_markets()
-        #
+        # open_auto.open_markets()
+
         # #appsandsaleschannels页面操作示例
-        # # open_auto.open_appsandsaleschannels()
-        #
+        # open_auto.open_appsandsaleschannels()
+
         # general页面操作示例
-        open_auto.open_general()
-        control_auto.process_general(top_domain_name)
-        #
-        #pages_new页面操作示例
-        # open_auto.open_pages_new()
-        # control_auto.process_pagesnew(domain_name)
+        # open_auto.open_general()
+        # control_auto.process_general(top_domain_name)
 
         # #pages_delete页面操作示例(用于删除页面)
-        # open_auto.open_pages()
-        # control_auto.process_pages_delete()
+        open_auto.open_pages()
+        control_auto.process_pages_delete()
+        #
+        #pages_new页面操作示例
+        open_auto.open_pages_new()
+        control_auto.process_pagesnew(domain_name)
 
         ##navigation页面操作示例
         open_auto.open_navigation()
