@@ -11,6 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from tqdm import tqdm
+
 import new_page
 from josn_pages.json_in import *
 
@@ -108,12 +110,12 @@ class shopify_auto_page:
         self.driver.get(self.url + "/settings/shipping")
         driver = self.driver
         print("开启页面shippinganddelivery")
-        time.sleep(3)
+        time.sleep(5)
         search_button_login = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
                                               "._SettingsItem__clickableAction_1mxsi_135"))
         )
-        time.sleep(2)
+        time.sleep(1)
         search_button_login.click()
         time.sleep(2)
         print("shippinganddelivery操作完成")
@@ -140,9 +142,21 @@ class shopify_auto_page:
 
     def open_pages_new(self):
         self.driver.get(self.url + "/pages/new")
+        print("开启页面pages_new")
+        time.sleep(5)
+        print("pages_new操作完成")
+
+    def open_pages(self):
+        self.driver.get(self.url + "/pages")
         print("开启页面pages")
         time.sleep(5)
         print("pages操作完成")
+
+    def open_navigation(self):
+        self.driver.get(self.url + "/menus")
+        print("开启页面navigation")
+        time.sleep(5)
+        print("navigation操作完成")
 
 class shopify_process:
     """
@@ -238,6 +252,12 @@ class shopify_process:
         time.sleep(1)
         self.__Addrate_add(name=date[country]['addrate1']['name'], min_price=date[country]['addrate1']['price_min'])
         print("物流信息1添加完成")
+        search_button_server = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              ".Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter"))
+        )
+        search_button_server.click()
+        time.sleep(5)
         print("物流信息2添加开始")
         self.__Addrate()
         time.sleep(1)
@@ -310,8 +330,8 @@ class shopify_process:
             time.sleep(0.5)
 
         server_bullton = WebDriverWait(driver, 60).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              "#PolarisPortalsContainer > div:nth-child(17) > div:nth-child(1) > div > div > div > div.Polaris-Modal-Dialog__Modal > div.Polaris-Modal-Footer > div > div > div > div.Polaris-InlineStack > div:nth-child(2) > div > button.Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter"))
+            EC.visibility_of_element_located((By.XPATH,
+                                              "//button[@class='Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter']"))
         )
         server_bullton.click()
         time.sleep(3)
@@ -351,7 +371,7 @@ class shopify_process:
         pages = new_page.NewPage()
         pages_date = pages.add_page(web)
 
-        for i in range(1,len(pages_date)+1):
+        for i in tqdm(range(1,len(pages_date)+1)):
             iframe_element = driver.find_element(By.CSS_SELECTOR,
                                                  "#AppFrameScrollable > div > div > div > div > div > div > iframe")
             driver.switch_to.frame(iframe_element)
@@ -389,3 +409,149 @@ class shopify_process:
                 time.sleep(5)
         print("pages页面操作完成")
 
+    def process_pages_delete(self):
+        driver = self.driver
+        print("开始操作pages_delete")
+        print("未完成")
+
+    def process_navigation(self):
+        driver = self.driver
+        url = driver.current_url
+        print("开始操作navigation")
+
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              "#AppFrameScrollable > div > div > div > div > div > div > iframe"))
+        )
+        driver.switch_to.frame(in_iframe)
+        time.sleep(1)
+        open_Footer_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="app"]/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div/div/div/table/tbody/tr[1]/th/p/a'))
+        )
+        open_Footer_menu.click()
+        print("Footer菜单打开")
+        driver.switch_to.default_content()
+        time.sleep(3)
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '#AppFrameScrollable > div > div > div > div > div > div > iframe'))
+        )
+        driver.switch_to.frame(in_iframe)
+        print("进入iframe")
+        add_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="node-ROOT-add-node"]/div/div/button'))
+        )
+        add_menu.click()
+        time.sleep(1)
+        add_menu_item = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-TextField__Input.Polaris-TextField__Input--hasClearButton'))
+        )
+        add_menu_item.click()
+        time.sleep(1)
+        menu_items = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        menu_items[4].click()
+        time.sleep(2)
+        menu_items_list = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        for i in tqdm(range(len(menu_items_list)),desc="navigation菜单添加"):
+            menu_items_list[i].click()
+            time.sleep(0.5)
+            server_item = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  '//*[@id="app"]/div[1]/div[1]/div[1]/div/div/div/div[3]/div/button[2]'))
+            )
+            time.sleep(0.5)
+            server_item.click()
+            if i != 6:
+                add_menu = WebDriverWait(driver, 60).until(
+                    EC.visibility_of_element_located((By.XPATH,
+                                                      '//*[@id="node-ROOT-add-node"]/div/div/button'))
+                )
+                add_menu.click()
+                time.sleep(1)
+                add_menu_item = WebDriverWait(driver, 60).until(
+                    EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                                      '.Polaris-TextField__Input.Polaris-TextField__Input--hasClearButton'))
+                )
+                add_menu_item.click()
+                time.sleep(1)
+                menu_items = WebDriverWait(driver, 60).until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                                         'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+                )
+                menu_items[4].click()
+                time.sleep(5)
+                menu_items_list = WebDriverWait(driver, 60).until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                                         'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+                )
+
+        driver.switch_to.default_content()
+        time.sleep(2)
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '#AppFrameScrollable > div > div > div > div > div > div > iframe'))
+        )
+        driver.switch_to.frame(in_iframe)
+        print("footer_menu添加完成")
+        server_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Text--root.Polaris-Text--bodySm.Polaris-Text--semibold'))
+        )
+        server_menu.click()
+        time.sleep(1)
+        print('Footer_menu导航完成')
+
+
+        driver.get(url)
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              "#AppFrameScrollable > div > div > div > div > div > div > iframe"))
+        )
+        driver.switch_to.frame(in_iframe)
+        time.sleep(1)
+        open_Footer_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="app"]/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div/div/div/table/tbody/tr[2]/th/p/a'))
+        )
+        open_Footer_menu.click()
+        print("Footer菜单打开")
+        driver.switch_to.default_content()
+        time.sleep(3)
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '#AppFrameScrollable > div > div > div > div > div > div > iframe'))
+        )
+        driver.switch_to.frame(in_iframe)
+        print("进入iframe")
+        add_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="node-ROOT-add-node"]/div/div/button'))
+        )
+        add_menu.click()
+        time.sleep(1)
+        add_menu_item = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-TextField__Input.Polaris-TextField__Input--hasClearButton'))
+        )
+        add_menu_item.click()
+        time.sleep(1)
+        menu_items = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        menu_items[4].click()
+        time.sleep(2)
+        menu_items_list = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        print("navigation页面操作完成")

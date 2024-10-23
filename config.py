@@ -18,13 +18,15 @@ class run_auto:
             print("开始自动化操作")
             print("程序暂停后有一分钟时间操作具体内容")
             self.auto_gui(drivers,self.domain_name)
-            close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
 
-        # 关闭浏览器
-        if close_on == "1":
-            drivers.quit()
-            autoweb_window.close_website(chrome_id)
-            print("浏览器关闭成功(Webdriver closed successfully)")
+        drivers.get('https://www.browserscan.net/')
+        # close_on = input("自动化操作完成是否关闭浏览器（0：否，1：是）：")
+        #
+        # # 关闭浏览器
+        # if close_on == "1":
+        #     drivers.quit()
+        #     autoweb_window.close_website(chrome_id)
+        #     print("浏览器关闭成功(Webdriver closed successfully)")
 
 
     def auto_gui(self,drivers,domain_name):
@@ -34,23 +36,31 @@ class run_auto:
         open_auto = shopify_auto_page(drivers)
         control_auto = shopify_process(drivers)
         top_domain_name = domain_name.capitalize()
-        #shippinganddelivery页面操作示例
+        # #shippinganddelivery页面操作示例
         # open_auto.open_shippinganddelivery()
         # control_auto.new_process_shippinganddelivery(date)
+        #
+        # #markets页面操作示例
+        # # open_auto.open_markets()
+        #
+        # #appsandsaleschannels页面操作示例
+        # # open_auto.open_appsandsaleschannels()
+        #
+        # # general页面操作示例
+        # open_auto.open_general()
+        # control_auto.process_general(top_domain_name)
+        #
+        # #pages_new页面操作示例
+        # open_auto.open_pages_new()
+        # control_auto.process_pagesnew(domain_name)
 
-        #markets页面操作示例
-        # open_auto.open_markets()
+        # #pages页面操作示例(用于删除页面)
+        # open_auto.open_pages()
+        # control_auto.process_pages_delete()
 
-        #appsandsaleschannels页面操作示例
-        # open_auto.open_appsandsaleschannels()
-
-        # general页面操作示例
-        open_auto.open_general()
-        control_auto.process_general(top_domain_name)
-
-        #pages页面操作示例
-        open_auto.open_pages_new()
-        control_auto.process_pagesnew(domain_name)
+        ##navigation页面操作示例
+        open_auto.open_navigation()
+        control_auto.process_navigation()
 
 if __name__ == '__main__':
     url = "http://local.adspower.com:50325"
