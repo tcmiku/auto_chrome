@@ -461,6 +461,7 @@ class shopify_process:
             EC.presence_of_all_elements_located((By.CLASS_NAME,
                                               'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
         )
+        #菜单添加操作
         for i in tqdm(range(len(menu_items_list)),desc="navigation菜单添加"):
             menu_items_list[i].click()
             time.sleep(0.5)
@@ -511,6 +512,7 @@ class shopify_process:
         print('Footer_menu导航完成')
 
 
+
         driver.get(url)
         in_iframe = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
@@ -523,7 +525,7 @@ class shopify_process:
                                               '//*[@id="app"]/div[1]/div/div/div[2]/div[1]/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div/div/div/table/tbody/tr[2]/th/p/a'))
         )
         open_Footer_menu.click()
-        print("Footer菜单打开")
+        print("Main_menu菜单打开")
         driver.switch_to.default_content()
         time.sleep(3)
         in_iframe = WebDriverWait(driver, 60).until(
@@ -554,4 +556,59 @@ class shopify_process:
             EC.presence_of_all_elements_located((By.CLASS_NAME,
                                               'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
         )
+        menu_items_list[1].click()
+        time.sleep(0.5)
+        server_item = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="app"]/div[1]/div[1]/div[1]/div/div/div/div[3]/div/button[2]'))
+        )
+        time.sleep(0.5)
+        server_item.click()
+        add_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="node-ROOT-add-node"]/div/div/button'))
+        )
+        add_menu.click()
+        time.sleep(1)
+        add_menu_item = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-TextField__Input.Polaris-TextField__Input--hasClearButton'))
+        )
+        add_menu_item.click()
+        time.sleep(1)
+        menu_items = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                                 'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        menu_items[4].click()
+        time.sleep(5)
+        menu_items_list = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                                 'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
+        )
+        menu_items_list[2].click()
+        time.sleep(0.5)
+        server_item = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="app"]/div[1]/div[1]/div[1]/div/div/div/div[3]/div/button[2]'))
+        )
+        time.sleep(0.5)
+        server_item.click()
+        time.sleep(1)
+
+        driver.switch_to.default_content()
+        time.sleep(2)
+        in_iframe = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '#AppFrameScrollable > div > div > div > div > div > div > iframe'))
+        )
+        driver.switch_to.frame(in_iframe)
+        print("Main_menu添加完成")
+        server_menu = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Text--root.Polaris-Text--bodySm.Polaris-Text--semibold'))
+        )
+        server_menu.click()
+        print('Main_menu导航完成')
+        time.sleep(1)
         print("navigation页面操作完成")

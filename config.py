@@ -36,7 +36,7 @@ class run_auto:
         open_auto = shopify_auto_page(drivers)
         control_auto = shopify_process(drivers)
         top_domain_name = domain_name.capitalize()
-        # #shippinganddelivery页面操作示例
+        #shippinganddelivery页面操作示例
         # open_auto.open_shippinganddelivery()
         # control_auto.new_process_shippinganddelivery(date)
         #
@@ -46,15 +46,15 @@ class run_auto:
         # #appsandsaleschannels页面操作示例
         # # open_auto.open_appsandsaleschannels()
         #
-        # # general页面操作示例
-        # open_auto.open_general()
-        # control_auto.process_general(top_domain_name)
+        # general页面操作示例
+        open_auto.open_general()
+        control_auto.process_general(top_domain_name)
         #
-        # #pages_new页面操作示例
+        #pages_new页面操作示例
         # open_auto.open_pages_new()
         # control_auto.process_pagesnew(domain_name)
 
-        # #pages页面操作示例(用于删除页面)
+        # #pages_delete页面操作示例(用于删除页面)
         # open_auto.open_pages()
         # control_auto.process_pages_delete()
 
