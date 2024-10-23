@@ -556,7 +556,7 @@ class shopify_process:
             EC.presence_of_all_elements_located((By.CLASS_NAME,
                                               'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
         )
-        menu_items_list[1].click()
+        menu_items_list[2].click()
         time.sleep(0.5)
         server_item = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.XPATH,
@@ -586,7 +586,7 @@ class shopify_process:
             EC.presence_of_all_elements_located((By.CLASS_NAME,
                                                  'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
         )
-        menu_items_list[2].click()
+        menu_items_list[1].click()
         time.sleep(0.5)
         server_item = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.XPATH,
