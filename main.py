@@ -374,7 +374,7 @@ class shopify_process:
         pages = new_page.NewPage()
         pages_date = pages.add_page(web)
 
-        for i in tqdm(range(1,len(pages_date)+1)):
+        for i in tqdm(range(1,len(pages_date)+1),desc="开始写入页面内容（内容较多写入会变慢）"):
             iframe_element = driver.find_element(By.CSS_SELECTOR,
                                                  "#AppFrameScrollable > div > div > div > div > div > div > iframe")
             driver.switch_to.frame(iframe_element)
@@ -393,10 +393,8 @@ class shopify_process:
                 EC.visibility_of_element_located((By.ID,
                                                   "page-description"))
             )
-            print("开始写入页面内容（内容较多写入会变慢）")
             html.send_keys(pages_date[str('page'+str(i))]['content'])
             time.sleep(1)
-            print("页面编辑完成")
             page_server = WebDriverWait(driver, 60).until(
                 EC.visibility_of_element_located((By.XPATH,
                                                   '//*[@id="app"]/div[1]/div[1]/div/div[2]/form/div/div[3]/div/div/button[2]'))
@@ -404,10 +402,9 @@ class shopify_process:
             if page_server.get_attribute('aria-disabled') != 'true':
                 page_server.click()
                 time.sleep(5)
-                print("第"+str(i)+"页页面操作完成")
             else:
                 print("第"+str(i)+"页页面操作失败")
-            if i != 7:
+            if i != len(pages_date):
                 driver.get(url + "/pages/new")
                 time.sleep(5)
         print("pages页面操作完成")
@@ -655,3 +652,57 @@ class shopify_process:
         print('Main_menu导航完成')
         time.sleep(1)
         print("navigation页面操作完成")
+
+    def process_markets_new(self):
+        driver = self.driver
+        print("开始操作markets_new")
+        inactive = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              '_SettingsItem__primaryWrapper_1mxsi_36'))
+        )
+        inactive[1].click()
+        time.sleep(1)
+        more_actions = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '#settings-body > div > div.Polaris-Box > div.Polaris-Page-Header--mediumTitle > div > div.Polaris-Page-Header__RightAlign > div.Polaris-ActionMenu > div > div.Polaris-ActionMenu-Actions__ActionsLayout > div:nth-child(2) > div > button'))
+        )
+        more_actions.click()
+        edit_market = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-ActionList__Item.Polaris-ActionList--default'))
+        )
+        edit_market.click()
+        edit = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.XPATH,
+                                              "//div/button[@class='Polaris-Button Polaris-Button--pressable Polaris-Button--variantSecondary Polaris-Button--sizeMicro Polaris-Button--textAlignCenter']"))
+        )
+        edit[0].click()
+        countries = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              '_ListHeader__CollapsibleButton_1nbgz_52'))
+        )
+        for i in tqdm(range(len(countries))):
+            if i != 0 and i != len(countries)-1:
+                countries[i].click()
+                time.sleep(0.5)
+        for i in tqdm(range(len(countries))):
+            link = f'/html/body/div/div[2]/div[12]/div[1]/div/div/div/div[1]/div[2]/div/div/section/div/div[2]/div[2]/div[2]/div/div[2]/div/div[{i+1}]/div/h2/div/div/div/div/label/span[1]'
+            switch_link = WebDriverWait(driver, 60).until(
+                EC.visibility_of_element_located((By.XPATH,
+                                                  link))
+            )
+            switch_link.click()
+        for i in tqdm(range(len(countries))):
+            if i != 0 and i != len(countries)-1:
+                link = f'/html/body/div/div[2]/div[12]/div[1]/div/div/div/div[1]/div[2]/div/div/section/div/div[2]/div[2]/div[2]/div/div[2]/div/div[{i+1}]/div/h2/div/div/div/div/label/span[1]'
+                switch_link = WebDriverWait(driver, 60).until(
+                    EC.visibility_of_element_located((By.XPATH,
+                                                      link))
+                )
+                switch_link.click()
+        server_button = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter'))
+        )
+        server_button.click()
+        time.sleep(5)

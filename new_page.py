@@ -15,7 +15,7 @@ class NewPage:
         new_page = self.date
         top_web = web.capitalize()
         big_web = web.upper()
-        index = ['page'+ str(i) for i in range(1,8)]
+        index = ['page'+ str(i) for i in range(1,len(new_page[self.country]))]
         for i in index:
             new_page[self.country][i]['content'] = self.__re_page(web,top_web,big_web,i)
         return new_page[self.country]
