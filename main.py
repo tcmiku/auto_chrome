@@ -261,14 +261,16 @@ class shopify_process:
                            price=date[country]['addrate2']['price'], max_price=date[country]['addrate2']['price_max'],
                            num_int=2)
         tq.update(1)
+        tq.close()
         print("物流信息2添加完成")
         time.sleep(1)
         self.__shippinganddelivery_server()
 
-        # print('开始设置地区')
-        # self.__Editzone_open()
-        # self.__Editzone_add()
+        print('开始设置地区')
+        self.__Editzone_open()
+        self.__Editzone_add()
 
+        self.__shippinganddelivery_server()
         print("shippinganddelivery页面操作完成")
 
     def __Addrate(self):
@@ -362,9 +364,38 @@ class shopify_process:
                                               '_ListHeader__CollapsibleButton_1nbgz_52'))
         )
         # 遍历这些元素并进行点击操作
-        for element in tqdm(divs):
-            element.click()
+        i = 0
+        tq_switch = tqdm(total=6,desc='正在配置地区')
+        while i < len(divs):
+            divs[i].click()
             time.sleep(0.5)  # 每次点击后等待0.5秒
+            divs = WebDriverWait(driver, 60).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                                     '_ListHeader__CollapsibleButton_1nbgz_52'))
+            )
+            i+=1
+            tq_switch.update(1)
+        tq_switch.close()
+        time.sleep(1)
+        switch_button = WebDriverWait(driver, 60).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              'Polaris-Choice__Control'))
+        )
+        for i in tqdm(range(len(switch_button)),desc="正在配置地区"):
+            switch_button[i].click()
+            time.sleep(0.5)
+
+        for i in tqdm(range(len(switch_button)),desc="正在配置地区"):
+            if i != 0 and i!= len(switch_button)-1:
+                switch_button[i].click()
+                time.sleep(0.5)
+        time.sleep(1)
+        server_button = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="PolarisPortalsContainer"]/div[21]/div[1]/div/div/div/div[1]/div[3]/div/div/div/div[2]/div[2]/div/button[2]'))
+        )
+        server_button.click()
+        time.sleep(2)
 
     def process_pagesnew(self,web):
         driver = self.driver
