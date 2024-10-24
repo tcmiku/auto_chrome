@@ -217,6 +217,7 @@ class shopify_process:
 
     def  new_process_shippinganddelivery(self,date,country='us'):
         driver = self.driver
+        tq = tqdm(total=2,desc='正在配置物流信息')
         print("开始操作shippinganddelivery")
         element = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR,
@@ -246,35 +247,28 @@ class shopify_process:
             time.sleep(3)
             print('HK条目删除成功')
 
-        print("开始添加物流信息")
         print("物流信息1添加开始")
         self.__Addrate()
         time.sleep(1)
         self.__Addrate_add(name=date[country]['addrate1']['name'], min_price=date[country]['addrate1']['price_min'])
+        tq.update(1)
         print("物流信息1添加完成")
-        search_button_server = WebDriverWait(driver, 60).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              ".Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter"))
-        )
-        search_button_server.click()
-        time.sleep(5)
+        self.__shippinganddelivery_server()
         print("物流信息2添加开始")
         self.__Addrate()
         time.sleep(1)
         self.__Addrate_add(name=date[country]['addrate2']['name'], min_price=date[country]['addrate2']['price_min'],
                            price=date[country]['addrate2']['price'], max_price=date[country]['addrate2']['price_max'],
                            num_int=2)
+        tq.update(1)
         print("物流信息2添加完成")
         time.sleep(1)
+        self.__shippinganddelivery_server()
+
         # print('开始设置地区')
         # self.__Editzone_open()
         # self.__Editzone_add()
-        search_button_server = WebDriverWait(driver, 60).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR,
-                                              ".Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter"))
-        )
-        search_button_server.click()
-        time.sleep(5)
+
         print("shippinganddelivery页面操作完成")
 
     def __Addrate(self):
@@ -352,14 +346,23 @@ class shopify_process:
         edit_bullton_1.click()
         time.sleep(0.5)
 
+    def __shippinganddelivery_server(self):
+        driver = self.driver
+        search_button_server = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              ".Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter"))
+        )
+        search_button_server.click()
+        time.sleep(5)
+
     def __Editzone_add(self):
         driver = self.driver
         divs = WebDriverWait(driver, 60).until(
-            EC.visibility_of_element_located((By.XPATH,
-                                              '//*[@class="_ListHeader__CollapsibleButton_1nbgz_52"]'))
+            EC.presence_of_all_elements_located((By.CLASS_NAME,
+                                              '_ListHeader__CollapsibleButton_1nbgz_52'))
         )
         # 遍历这些元素并进行点击操作
-        for element in divs:
+        for element in tqdm(divs):
             element.click()
             time.sleep(0.5)  # 每次点击后等待0.5秒
 
@@ -420,7 +423,7 @@ class shopify_process:
             driver.switch_to.frame(in_iframe)
             time.sleep(1)
             print("进入iframe")
-            switch_bulltn = WebDriverWait(driver, 60).until(
+            switch_bulltn = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.XPATH,
                                                   '//*[@id="app"]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div/div[3]/div/div/div[2]/div/div[1]/div[2]/div'))
             )
@@ -502,7 +505,7 @@ class shopify_process:
                                               'Online-Store-UI-UrlPickerList-UrlPickerItem__Text_192hg'))
         )
         #菜单添加操作
-        for i in tqdm(range(len(menu_items_list)),desc="navigation菜单添加"):
+        for i in tqdm(range(len(menu_items_list)),desc="navigation菜单添加",total=len(menu_items_list)):
             menu_items_list[i].click()
             time.sleep(0.5)
             server_item = WebDriverWait(driver, 60).until(
@@ -511,7 +514,7 @@ class shopify_process:
             )
             time.sleep(0.5)
             server_item.click()
-            if i != 6:
+            if i != len(menu_items_list)-1:
                 add_menu = WebDriverWait(driver, 60).until(
                     EC.visibility_of_element_located((By.XPATH,
                                                       '//*[@id="node-ROOT-add-node"]/div/div/button'))

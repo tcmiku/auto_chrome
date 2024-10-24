@@ -49,7 +49,7 @@ class run_auto:
         # general页面操作示例
         # open_auto.open_general()
         # control_auto.process_general(top_domain_name)
-
+        #
         # #pages_delete页面操作示例(用于删除页面)
         open_auto.open_pages()
         control_auto.process_pages_delete()
