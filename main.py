@@ -392,7 +392,7 @@ class shopify_process:
         time.sleep(1)
         server_button = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.XPATH,
-                                              '//*[@id="PolarisPortalsContainer"]/div[21]/div[1]/div/div/div/div[1]/div[3]/div/div/div/div[2]/div[2]/div/button[2]'))
+                                              "//button[@class='Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter']"))
         )
         server_button.click()
         time.sleep(2)
