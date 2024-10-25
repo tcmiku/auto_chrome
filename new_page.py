@@ -15,7 +15,7 @@ class NewPage:
         new_page = self.date
         top_web = web.capitalize()
         big_web = web.upper()
-        index = ['page'+ str(i) for i in range(1,len(new_page[self.country]))]
+        index = ['page'+ str(i) for i in range(1,len(new_page[self.country])+1)]
         for i in index:
             new_page[self.country][i]['content'] = self.__re_page(web,top_web,big_web,i)
         return new_page[self.country]
@@ -28,6 +28,5 @@ class NewPage:
         return page_content
 
 if __name__ == '__main__':
-    page = NewPage()
-    # page = NewPage(country="de")   #德语模式
+    page = NewPage(country="grunsguru")   #德语模式
     print(page.add_page('qoupuay'))

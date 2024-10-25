@@ -247,14 +247,14 @@ class shopify_process:
             time.sleep(3)
             print('HK条目删除成功')
 
-        print("物流信息1添加开始")
+
         self.__Addrate()
         time.sleep(1)
         self.__Addrate_add(name=date[country]['addrate1']['name'], min_price=date[country]['addrate1']['price_min'])
         tq.update(1)
-        print("物流信息1添加完成")
+
         self.__shippinganddelivery_server()
-        print("物流信息2添加开始")
+
         self.__Addrate()
         time.sleep(1)
         self.__Addrate_add(name=date[country]['addrate2']['name'], min_price=date[country]['addrate2']['price_min'],
@@ -397,12 +397,12 @@ class shopify_process:
         server_button.click()
         time.sleep(2)
 
-    def process_pagesnew(self,web):
+    def process_pagesnew(self,web,country = 'us'):
         driver = self.driver
         url = driver.current_url
         url = url.replace('/pages/new', '')
         print("开始操作pages")
-        pages = new_page.NewPage()
+        pages = new_page.NewPage(country)
         pages_date = pages.add_page(web)
 
         for i in tqdm(range(1,len(pages_date)+1),desc="开始写入页面内容（内容较多写入会变慢）"):
@@ -424,7 +424,9 @@ class shopify_process:
                 EC.visibility_of_element_located((By.ID,
                                                   "page-description"))
             )
-            html.send_keys(pages_date[str('page'+str(i))]['content'])
+            html_content = self.__split_string(pages_date[str('page'+str(i))]['content'], 400)
+            for segments in tqdm(html_content,desc="正在写入分割后的页面内容"):
+                html.send_keys(segments)
             time.sleep(1)
             page_server = WebDriverWait(driver, 60).until(
                 EC.visibility_of_element_located((By.XPATH,
@@ -439,6 +441,10 @@ class shopify_process:
                 driver.get(url + "/pages/new")
                 time.sleep(5)
         print("pages页面操作完成")
+
+    def __split_string(self,s, length):
+        #字符串切割操作
+        return [s[i:i + length] for i in range(0, len(s), length)]
 
     def process_pages_delete(self):
         driver = self.driver
