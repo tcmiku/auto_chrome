@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from config import *
+import threading
 import time
 from name import Name
 from new_page import NewPage
@@ -169,10 +170,13 @@ class Page2(ttk.Frame):
         user_digits = self.option1_var.get()
         use_letters = self.option2_var.get()
         use_special = self.option3_var.get()
-        password = PasswordGenerator(length=length, use_digits=user_digits, use_letters=use_letters, use_special=use_special)
-        password_result = password.generate_password()
-        self.password.delete(1.0, END)
-        self.password.insert(INSERT,password_result)
+        try:
+            password = PasswordGenerator(length=length, use_digits=user_digits, use_letters=use_letters, use_special=use_special)
+            password_result = password.generate_password()
+            self.password.delete(1.0, END)
+            self.password.insert(INSERT,password_result)
+        except ValueError as e:
+            print(e)
 
 
 
@@ -246,15 +250,32 @@ class Page4(ttk.Frame):
         self.button_create = Button(self, text="RUN", command=self.create_page,width=15)
         self.button_create.pack()
 
+        self.line = Label(self, text="-----------------------")
+
+        # 添加Text组件用于显示信息
+        self.text_output = Text(self, height=10, width=50)
+        self.text_output.pack()
+
+    def log(self, message):
+        self.text_output.insert(tk.END, message + '\n')
+        self.text_output.see(tk.END)  # 滚动到文本的最后一行
+
     def create_page(self):
-        url = "http://local.adspower.com:50325"
-        page_name = self.domain_name_entry.get()
-        chrome_id = self.chrome_id_entry.get()
-        page_content = self.selected_content.get()
-        if page_name and chrome_id and page_content is not None:
-            run_auto(url,chrome_id,domain_name,page_content).auto()
+        self.url = "http://local.adspower.com:50325"
+        self.page_name = self.domain_name_entry.get()
+        self.chrome_id = self.chrome_id_entry.get()
+        self.content = self.selected_content.get()
+        thread1 = threading.Thread(target=self.page_content)
+        if self.page_name and self.chrome_id and self.content is not None:
+            self.log("开始执行...")  # 打印信息到Text组件
+            thread1.start()
         else:
-            print("请填写完整信息")
+            self.log("请填写完整信息")
+
+    def page_content(self):
+        self.log("正在执行页面内容...")
+        run_auto(self.url,self.chrome_id,self.page_name,self.content).auto()
+        self.log("执行完成。")
 
 
 
