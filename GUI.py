@@ -245,16 +245,18 @@ class Page4(ttk.Frame):
         self.dropdown_content = OptionMenu(self, self.selected_content, *self.page_contents)
         self.dropdown_content.pack()
 
-        self.line = Label(self, text="-----------------------")
+        self.line = Label(self, text="----------------------------------------------")
         self.line.pack()
         self.button_create = Button(self, text="RUN", command=self.create_page,width=15)
         self.button_create.pack()
 
-        self.line = Label(self, text="-----------------------")
+        self.line = Label(self, text="----------------------------------------------")
+        self.line.pack()
 
         # 添加Text组件用于显示信息
         self.text_output = Text(self, height=10, width=50)
         self.text_output.pack()
+
 
     def log(self, message):
         self.text_output.insert(tk.END, message + '\n')
@@ -274,8 +276,11 @@ class Page4(ttk.Frame):
 
     def page_content(self):
         self.log("正在执行页面内容...")
+        start_time = time.time()
         run_auto(self.url,self.chrome_id,self.page_name,self.content).auto()
-        self.log("执行完成。")
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        self.log(f"程序运行时间: {elapsed_time:.2f} 秒")
 
 
 
