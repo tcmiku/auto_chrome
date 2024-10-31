@@ -743,3 +743,13 @@ class shopify_process:
         )
         server_button.click()
         time.sleep(5)
+
+    def process_add_market(self):
+        driver = self.driver
+        print("开始操作add_market")
+        add_market_button = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.XPATH,
+                                              '//*[@id="settings-body"]/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div/button'))
+        )
+        add_market_button.click()
+        time.sleep(1)
