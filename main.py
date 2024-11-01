@@ -749,7 +749,35 @@ class shopify_process:
         print("开始操作add_market")
         add_market_button = WebDriverWait(driver, 60).until(
             EC.visibility_of_element_located((By.XPATH,
-                                              '//*[@id="settings-body"]/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div/button'))
+                                              '//*[@id="settings-body"]/div/div[1]/div[2]/div/div[2]/div[2]/div/div/button'))
         )
         add_market_button.click()
         time.sleep(1)
+        market_name_input = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-TextField__Input'))
+        )
+        market_name_input.send_keys("United States")
+        market_name = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantSecondary.Polaris-Button--sizeSlim.Polaris-Button--textAlignCenter.Polaris-Button--iconOnly'))
+        )
+        market_name.click()
+        name_input = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-TextField__Input.Polaris-TextField__Input--hasClearButton'))
+        )
+        name_input.send_keys("United States")
+        time.sleep(0.5)
+        switch_us = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Choice__Control'))
+        )
+        switch_us.click()
+        server_button = WebDriverWait(driver, 60).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR,
+                                              '.Polaris-Button.Polaris-Button--pressable.Polaris-Button--variantPrimary.Polaris-Button--sizeMedium.Polaris-Button--textAlignCenter'))
+        )
+        server_button.click()
+        time.sleep(3)
+        print("add_market页面操作完成")
