@@ -40,31 +40,32 @@ class run_auto:
 
         # #markets页面操作示例
         open_auto.open_markets()
-        # control_auto.process_markets_new()
+        control_auto.process_markets_new()
+        open_auto.open_markets()
         control_auto.process_add_market()
         #shippinganddelivery页面操作示例
-        # open_auto.open_shippinganddelivery()
-        # control_auto.new_process_shippinganddelivery(date)
+        open_auto.open_shippinganddelivery()
+        control_auto.new_process_shippinganddelivery(date)
+
+
+        #appsandsaleschannels页面操作示例
+        open_auto.open_appsandsaleschannels()
+
+        # general页面操作示例
+        open_auto.open_general()
+        control_auto.process_general(top_domain_name)
         #
+        #pages_delete页面操作示例(用于删除页面)
+        open_auto.open_pages()
+        control_auto.process_pages_delete()
         #
-        # #appsandsaleschannels页面操作示例
-        # open_auto.open_appsandsaleschannels()
+        #pages_new页面操作示例
+        open_auto.open_pages_new()
+        control_auto.process_pagesnew(domain_name,self.country)
         #
-        # # general页面操作示例
-        # open_auto.open_general()
-        # control_auto.process_general(top_domain_name)
-        # #
-        # #pages_delete页面操作示例(用于删除页面)
-        # open_auto.open_pages()
-        # control_auto.process_pages_delete()
-        # #
-        # #pages_new页面操作示例
-        # open_auto.open_pages_new()
-        # control_auto.process_pagesnew(domain_name,self.country)
-        # #
-        # #navigation页面操作示例
-        # open_auto.open_navigation()
-        # control_auto.process_navigation()
+        #navigation页面操作示例
+        open_auto.open_navigation()
+        control_auto.process_navigation()
 
 if __name__ == '__main__':
     url = "http://local.adspower.com:50325"
