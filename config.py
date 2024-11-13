@@ -39,8 +39,8 @@ class run_auto:
         top_domain_name = domain_name.capitalize()
 
         # #markets页面操作示例
-        open_auto.open_markets()
-        control_auto.process_markets_new()
+        # open_auto.open_markets()
+        # control_auto.process_markets_new()
         open_auto.open_markets()
         control_auto.process_add_market()
         #shippinganddelivery页面操作示例

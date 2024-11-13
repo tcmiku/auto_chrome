@@ -277,7 +277,12 @@ class Page4(ttk.Frame):
     def page_content(self):
         self.log("正在执行页面内容...")
         start_time = time.time()
-        run_auto(self.url,self.chrome_id,self.page_name,self.content).auto()
+        try:
+            run_auto(self.url,self.chrome_id,self.page_name,self.content).auto()
+        except Exception as e:
+            self.log(f"执行失败: {e}")
+        else:
+            self.log("执行成功")
         end_time = time.time()
         elapsed_time = end_time - start_time
         self.log(f"程序运行时间: {elapsed_time:.2f} 秒")
