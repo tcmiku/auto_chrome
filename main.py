@@ -14,9 +14,7 @@ from selenium.webdriver.common.by import By
 from tqdm import tqdm
 
 import new_page
-from josn_pages.json_in import *
 
-from new_page import *
 
 class web:
     def __init__(self,api_website):

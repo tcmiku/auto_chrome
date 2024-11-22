@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+import data.WebJsonIn
+from selenium.webdriver.common.devtools.v127.storage import clear_shared_storage_entries
+
 from config import *
 import threading
 import time
+
+from data.WebJsonIn import WebJsonIn_data
 from name import Name
 from new_page import NewPage
 from password_new import PasswordGenerator
@@ -24,12 +29,16 @@ class App(tk.Tk):
         self.page1 = Page1(self.container)
         self.page2 = Page2(self.container)
         self.page3 = Page3(self.container)
+        self.page6 = Page6(self.container)
+        self.page5 = Page5(self.container)
 
         # 添加页面到容器
         self.container.add(self.page4, text="浏览器操作工具")
         self.container.add(self.page1, text="页面生成器")
         self.container.add(self.page2, text="密码生成器")
         self.container.add(self.page3, text="虚拟信息生成器")
+        self.container.add(self.page6, text="DNS导入模板")
+        self.container.add(self.page5, text="其他")
 
 
 class Page1(ttk.Frame):
@@ -286,6 +295,82 @@ class Page4(ttk.Frame):
         end_time = time.time()
         elapsed_time = end_time - start_time
         self.log(f"程序运行时间: {elapsed_time:.2f} 秒")
+
+class Page5(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.label0 = Label(self, text="PPFunnel 插件文本")
+        self.label0.grid(row=0, column=0)
+
+        # 创建 Label 组件
+        self.label = tk.Label(self, text="这是一个可以复制的文本。")
+        self.label.grid(row=1, column=0, padx=10, pady=10)
+
+        # 创建右键菜单
+        self.context_menu = tk.Menu(self, tearoff=0)
+        self.context_menu.add_command(label="复制", command=self.copy_to_clipboard)
+
+        # 绑定右键点击事件
+        self.label.bind("<Button-3>", self.show_context_menu)
+
+    def copy_to_clipboard(self,event=None):
+        # 获取 Label 中的文本
+        text = self.label.cget("text")
+        # 将文本复制到剪贴板
+        self.clipboard_clear()  # 清空剪贴板
+        self.clipboard_append(text)  # 追加文本到剪贴板
+        self.update()  # 更新剪贴板内容
+
+    def show_context_menu(self,event):
+        # 显示右键菜单
+        self.context_menu.post(event.x_root, event.y_root)
+
+class Page6(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.label = Label(self, text="DNS导入模板：")
+        self.label.pack()
+
+        self.label_name = Label(self, text="输入域名:")
+        self.label_name.pack()
+
+        # 输入框
+        self.selected_name = Entry(self)
+        self.selected_name.pack()
+
+        # 下拉选择框
+        self.label_content = Label(self, text="选择模板内容:")
+        self.label_content.pack()
+        self.page_contents = ["namecheap.txt","yanximail.com.txt","域名导入模板.txt"]  # 示例页面内容
+        self.selected_content = StringVar(self)
+        self.selected_content.set(self.page_contents[0])  # 设置默认值
+        self.dropdown_content = OptionMenu(self, self.selected_content, *self.page_contents)
+        self.dropdown_content.pack()
+
+        self.line = Label(self, text="-"*90)
+        self.line.pack()
+
+        self.button_create = Button(self, text="生成", command=self.create_page,width=15)
+        self.button_create.pack()
+
+        self.line = Label(self, text="-"*90)
+        self.line.pack()
+
+
+        self.line = Label(self, text="预览窗口:")
+        self.line.pack()
+        self.text_preview = Text(self, height=15, width=70)
+        self.text_preview.pack()
+
+    def create_page(self):
+        file_name = self.selected_content.get()
+        new_file_name = "./data/"+file_name
+        web_name = self.selected_name.get()
+        output_file = f"new_data/new_{file_name}"
+        data =WebJsonIn_data(new_file_name,output_file,web_name)
+        self.text_preview.delete(1.0, END)
+        self.text_preview.insert(INSERT,data)
 
 
 

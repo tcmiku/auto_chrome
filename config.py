@@ -1,4 +1,5 @@
 from main import *
+
 class run_auto:
     def __init__(self,url,chrome_id,domain_name,country = 'us'):
         self.url = url
@@ -32,7 +33,7 @@ class run_auto:
 
     def auto_gui(self,drivers,domain_name):
         #导入需要用到的类和数据包
-        sadelivery_josn = JSON_IN('josn_pages/shippinganddelivery.json')
+        sadelivery_josn = JSON_IN('../josn_pages/shippinganddelivery.json')
         date = sadelivery_josn.read_json()
         open_auto = shopify_auto_page(drivers)
         control_auto = shopify_process(drivers)

@@ -1,0 +1,23 @@
+;; NS Records
+omeganux.com.	86400	IN	NS	graham.ns.cloudflare.com.
+omeganux.com.	86400	IN	NS	paige.ns.cloudflare.com.
+
+;; A Records
+omeganux.com.	1	IN	A	23.227.38.65
+
+;; CNAME Records
+autoconfig.omeganux.com.	1	IN	CNAME	privateemail.com.
+autodiscover.omeganux.com.	1	IN	CNAME	privateemail.com.
+mail.omeganux.com.	1	IN	CNAME	privateemail.com.
+www.omeganux.com.	1	IN	CNAME	shops.myshopify.com.
+
+;; MX Records
+omeganux.com.	1	IN	MX	10 mx2.privateemail.com.
+omeganux.com.	1	IN	MX	10 mx1.privateemail.com.
+
+;; SRV Records
+_autodiscover._tcp.omeganux.com.	1	IN	SRV	0 0 443 privateemail.com.
+
+;; TXT Records
+omeganux.com.	1	IN	TXT	"v=spf1 include:spf.privateemail.com ~all"
+default._domainkey.omeganux.com.	1	IN	TXT	"v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr776pczH8Z6MUn8+BtCo2k9feXNu4Ku13mc+j9XyRxGsxFPngi7TSi3mSNSUuFYyLPYF0W3CQlOxZJLnwjJojoOeHivOlD8k3MYt+okw7H/Y9DJRpt6lRW9UyUUQUFNcrlcySPYX+OQFYTU30rxT1IPrwHUEzj99RIjNMDJWdiS6IV4YLICuBX+mxG2Ex5t0SDP" "gXwoyz4bsvfc0Bcf7nCY/E5IWSlrNG1PW+bAkCLdktAVU1eItYR3Lb7akPkJjatfptWWP7SjH4RfkHhIFv0myUWnjbhIqa5LZuxEne6WiQ6fNG2VKx/dMeIO+wnDt3qnhfjdasiAQ1wc1VfSlOQIDAQAB"

@@ -1,0 +1,24 @@
+;; A Records
+
+{web_name}.	1	IN	A	23.227.38.65
+mail.{web_name}.	1	IN	A	64.90.62.162
+mailboxes.{web_name}.	1	IN	A	69.163.136.97
+webmail.{web_name}.	1	IN	A	69.163.136.138
+www.mailboxes.{web_name}.	1	IN	A	69.163.136.97
+www.webmail.{web_name}.	1	IN	A	69.163.136.138
+
+;; MX Records
+{web_name}.	1	IN	MX	0 mx1.mailchannels.net.
+{web_name}.	1	IN	MX	0 mx2.mailchannels.net.
+mail.{web_name}.	1	IN	MX	0 mx2.mailchannels.net.
+mail.{web_name}.	1	IN	MX	0 mx1.mailchannels.net.
+
+;; CNAME Records
+autoconfig.{web_name}.	1	IN	CNAME	autoconfig.dreamhost.com.
+www.{web_name}.	1	IN	CNAME	shops.myshopify.com.
+
+;; SRV Records
+_autodiscover._tcp.{web_name}.	1	IN	SRV	5 0 443 autoconfig.dreamhost.com.
+
+;; TXT Records
+{web_name}.	1	IN	TXT	"v=spf1 mx include:netblocks.dreamhost.com include:relay.mailchannels.net -all"

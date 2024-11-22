@@ -1,0 +1,46 @@
+;;
+;; Domain:     {web_name}.
+;; Exported:   2024-11-06 10:45:39
+;;
+;; This file is intended for use for informational and archival
+;; purposes ONLY and MUST be edited before use on a production
+;; DNS server.  In particular, you must:
+;;   -- update the SOA record with the correct authoritative name server
+;;   -- update the SOA record with the contact e-mail address information
+;;   -- update the NS record(s) with the authoritative name servers for this domain.
+;;
+;; For further information, please consult the BIND documentation
+;; located on the following website:
+;;
+;; http://www.isc.org/
+;;
+;; And RFC 1035:
+;;
+;; http://www.ietf.org/rfc/rfc1035.txt
+;;
+;; Please note that we do NOT offer technical support for any use
+;; of this zone data, the BIND name server, or any other third-party
+;; DNS software.
+;;
+;; Use at your own risk.
+;; SOA Record
+{web_name}	3600	IN	SOA	graham.ns.cloudflare.com. dns.cloudflare.com. 2048255653 10000 2400 604800 3600
+
+;; NS Records
+{web_name}.	86400	IN	NS	graham.ns.cloudflare.com.
+{web_name}.	86400	IN	NS	paige.ns.cloudflare.com.
+
+;; A Records
+mail.{web_name}.	1	IN	A	104.194.87.25
+
+;; CNAME Records
+imap.{web_name}.	1	IN	CNAME	mail.{web_name}.
+pop.{web_name}.	1	IN	CNAME	mail.{web_name}.
+smtp.{web_name}.	1	IN	CNAME	mail.{web_name}.
+
+;; MX Records
+{web_name}.	1	IN	MX	1 mail.{web_name}.
+
+;; TXT Records
+dkim._domainkey.{web_name}.	1	IN	TXT	"v=DKIM1;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDRUErGIHM80j60zCswf9lWNOmS670Dbvf2Mb9g6+SQCe6ouBYm6wFRa6oN/04XBbeAEzRAzjwRzNe3H4ri6seU5FBfJIZ/HTUk0hicWAsxtnd8rgt0DBEAT8wAcr+aq60ZkBpF8+r0I1Q+MeRo4St7LfeM5ZO0CXFJgVjkLNQN8QIDAQAB"
+{web_name}.	1	IN	TXT	"v=spf1 ip104.194.87.25 -all"
