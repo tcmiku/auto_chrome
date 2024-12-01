@@ -6,8 +6,7 @@ class NewPage:
     countr默认为英文页面
     countr = ”de“ 则为德文页面
     """
-    def __init__(self,country = "us"):
-        file_path = 'josn_pages/pages.json'
+    def __init__(self,file_path = 'josn_pages/pages.json',country = "us"):
         self.date = JSON_IN(file_path).read_json()
         self.country = country
 

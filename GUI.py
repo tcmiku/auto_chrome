@@ -62,6 +62,8 @@ class Page1(ttk.Frame):
         self.selected_end = Entry(self)
         self.selected_end.pack()
 
+        self.selected_end.insert(0, "com")
+
         self.line = Label(self, text="-"*50)
 
         # 下拉选择框

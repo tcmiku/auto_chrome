@@ -21,6 +21,9 @@ def open_chrome(url,id):
         else:
             print("Error: ", web_date['msg'])
             return False
+    else:
+        print("Error: ", reget.status_code)
+        return False
 
 if __name__ == '__main__':
     url = "http://local.adspower.com:50325"
