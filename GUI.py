@@ -56,6 +56,14 @@ class Page1(ttk.Frame):
         self.selected_name = Entry(self)
         self.selected_name.pack()
 
+        self.label_end = Label(self, text="输入网址后缀:")
+        self.label_end.pack()
+
+        self.selected_end = Entry(self)
+        self.selected_end.pack()
+
+        self.line = Label(self, text="-"*50)
+
         # 下拉选择框
         self.label_content = Label(self, text="选择模板内容:")
         self.label_content.pack()
@@ -99,8 +107,9 @@ class Page1(ttk.Frame):
         self.content_list = []
         page_name = self.selected_name.get()
         page_content = self.selected_content.get()
+        page_end = self.selected_end.get()
         new_page = NewPage(page_content)
-        page_data =new_page.add_page(page_name)
+        page_data =new_page.add_page(page_name,page_end)
         self.text_title.delete(1.0, END)
         self.text_content.delete(1.0, END)
         for i in range(len(page_data)):
