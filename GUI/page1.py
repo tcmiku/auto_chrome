@@ -61,7 +61,7 @@ class Page1(ttk.Frame):
 
         self.label_content2 = Label(self, text="选择内容:")
         self.label_content2.grid(row=7, column=0, padx=1, pady=1)
-        self.page_contents2 = ["明浪英语","明浪德语","大冲专用","南昌专用"]  # 示例页面内容
+        self.page_contents2 = ["明浪英语","明浪德语","大冲专用","南昌专用","NULL"]  # 示例页面内容
         self.selected_content2 = StringVar(self)
         self.selected_content2.set(self.page_contents2[0])  # 设置默认值
         self.dropdown_content2 = OptionMenu(self, self.selected_content2, *self.page_contents2)

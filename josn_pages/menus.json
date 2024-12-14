@@ -1,0 +1,24 @@
+{
+  "us":{
+    "Main_menu": {
+      "Home": "Homepage",
+      "Catalog": "Allproducts",
+      "FAQ": "FAQ",
+      "Contact Us": "Contact Us"
+    },
+    "Footer_menu":{
+      "Search": "Search",
+      "About US": "About US",
+      "Contact Us": "Contact Us",
+      "FAQ": "FAQ",
+      "Privacy Policy": "Privacy Policy",
+      "Return & Refund Policy": "Return & Refund Policy",
+      "Shipping & delivery": "Shipping & delivery",
+      "Terms of service": "Terms of service"
+    },
+    "Customer_account_main_menu": {
+      "Shop": "Homepage",
+      "Orders": "Orders"
+    }
+  }
+}

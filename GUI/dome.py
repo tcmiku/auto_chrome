@@ -1,19 +1,35 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import messagebox
 
-def select_file():
-    # 创建一个Tkinter窗口
-    root = tk.Tk()
-    root.withdraw()  # 隐藏主窗口
+def on_custom_button():
+    messagebox.showinfo("提示", "自定义按钮被点击")
 
-    # 打开文件选择对话框
-    file_path = filedialog.askopenfilename(title="选择一个文件")
+def close_window():
+    root.destroy()
 
-    # 打印选择的文件路径
-    if file_path:
-        print("选择的文件路径:", file_path)
-    else:
-        print("没有选择任何文件")
+# 创建主窗口
+root = tk.Tk()
+root.title("自定义标题栏示例")
+root.geometry("400x300")
 
-if __name__ == '__main__':
-    select_file()
+# 创建自定义标题栏
+title_bar = tk.Frame(root, bg='lightgray', relief='raised', bd=2)
+title_bar.pack(fill=tk.X)
+
+# 创建自定义按钮
+custom_button = tk.Button(title_bar, text="自定义按钮", command=on_custom_button)
+custom_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+# 创建关闭按钮
+close_button = tk.Button(title_bar, text="关闭", command=close_window)
+close_button.pack(side=tk.RIGHT, padx=5, pady=5)
+
+# 创建标签以填充窗口的内容
+content_frame = tk.Frame(root)
+content_frame.pack(expand=True, fill=tk.BOTH)
+
+label = tk.Label(content_frame, text="欢迎使用自定义标题栏示例")
+label.pack(pady=20)
+
+# 运行主循环
+root.mainloop()

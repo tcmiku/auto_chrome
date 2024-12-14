@@ -11,10 +11,19 @@ from page6 import Page6
 
 
 class App(tk.Tk):
+    flage = False
     def __init__(self):
         super().__init__()
         self.title("工具合集")
         # self.geometry("400x300")
+        # 创建自定义标题栏
+        title_bar = tk.Frame(self, bg='lightgray', relief='raised', bd=2)
+        title_bar.pack(fill=tk.X)
+
+        # 创建自定义按钮
+        custom_button = tk.Button(title_bar, text="置顶窗口", command=self.top)
+        custom_button.pack(side=tk.LEFT, padx=5, pady=2)
+
 
         # 创建一个容器，用于存放不同的页面
         self.container = ttk.Notebook(self)
@@ -35,6 +44,10 @@ class App(tk.Tk):
         self.container.add(self.page3, text="虚拟信息生成器")
         self.container.add(self.page6, text="DNS导入模板")
         self.container.add(self.page5, text="其他")
+
+    def top(self):
+        self.flage = not self.flage
+        self.attributes("-topmost", self.flage)
 
 
 

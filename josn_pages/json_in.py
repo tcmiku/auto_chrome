@@ -5,7 +5,7 @@ class JSON_IN:
     def __init__(self, filename):
         self.filename = filename
 
-    def read_json(self):
+    def read_json(self) -> dict:
         try:
             with open(self.filename, 'r', encoding='utf-8') as file:
                 self.data = json.load(file)
